@@ -176,8 +176,7 @@ The system follows a **client-server** architecture where the frontend interacts
 #### Installation Steps
 
 1. Clone the repository:
-   ```bash
-  git clone https://github.com/abu00123/Mindwell-Mental_health.git 
+   ```bash git clone https://github.com/abu00123/Mindwell-Mental_health.git 
 - pip install -r requirements.txt
 - flask db upgrade
 - flask run
