@@ -10,9 +10,9 @@ This document provides a comprehensive overview of the **Mindwell mental health*
 
 ### Problem Background
 
-Mental health is becoming a global concern. Approximately 1 in 4 people worldwide will develop a mental illness during their lifetime, and over 350 million are affected by depression. It is estimated that nearly 75% of individuals suffering from mental illnesses do not avail themselves of treatment due to financial or social restrictions. While the incidence of mental illnesses is high, access to effective and timely mental health care remains limited. Traditional mental health support systems are hindered by stigma, unaffordability, and unavailability.
+Mental health has emerged as a critical global issue, with nearly one in four people expected to experience a mental illness at some point in their lives. Depression alone affects over 350 million individuals worldwide. Despite the widespread nature of these conditions, nearly 75% of those affected do not receive the treatment they need—often due to financial barriers, social stigma, or a lack of available services. Traditional mental health support systems are frequently inaccessible, unaffordable, or overlooked.
 
-To address these challenges, there is a growing need for accessible, interactive, and easy-to-use platforms that provide personalized mental health care and information to help individuals manage their emotional well-being.
+To bridge this gap, there is an urgent need for accessible, user-friendly, and engaging platforms that offer personalized mental health support and reliable information—empowering individuals to take control of their emotional well-being.
 
 ---
 
@@ -173,13 +173,14 @@ The system follows a **client-server** architecture where the frontend interacts
 
 ---
 
-#### Installation Steps
+##### Installation Steps
 
-1. Clone the repository:
-   ```bash git clone https://github.com/abu00123/Mindwell-Mental_health.git 
-- pip install -r requirements.txt
-- flask db upgrade
-- flask run
+Clone the repository:
+git clone https://github.com/abu00123/Mindwell-Mental_health.git
+cd backend
+pip install -r requirements.txt
+flask db upgrade
+flask run
 
 #### Deployment
 

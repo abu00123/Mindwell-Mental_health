@@ -32,7 +32,7 @@ def load_environment_vars():
     """Robust environment variable loader with multiple fallback locations"""
     possible_paths = [
         Path('.env'),  # Current directory
-        Path(r"C:\Users\LENOVO\OneDrive\Desktop\Mental-heath-platform") / '.env',
+        Path(r"C:\Users\LENOVO\OneDrive\Desktop\MINDWELL-MENTAL_HEALTH") / '.env',
         Path.home() / '.env',
     ]
     
