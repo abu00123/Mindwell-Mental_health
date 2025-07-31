@@ -418,7 +418,7 @@ FALLBACK_RESPONSES = {
 }
 
 # Routes
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
     try:
         if not request.is_json:
