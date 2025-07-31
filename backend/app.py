@@ -74,6 +74,11 @@ load_environment_vars()
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def homepage():
+    return "Welcome to MindWell API! 🎉 The server is running."
+
+
 # =============================================
 # OPENAI CLIENT INITIALIZATION
 # =============================================
@@ -494,6 +499,7 @@ def login():
             "success": False,
             "message": "Login failed. Please try again."
         }), 500
+    
 
 @app.route("/api/user/profile", methods=["PUT"])
 def update_profile():

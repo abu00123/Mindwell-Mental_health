@@ -29,53 +29,9 @@
       margin: 1rem 0;
       font-weight: 600;
       display: none;
-      text-align: center;
-      padding: 10px;
-      background-color: #f0fff0;
-      border-radius: 4px;
     }
     input.error {
       border-color: #ff6b6b !important;
-    }
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    /* Password requirements */
-    .password-requirements {
-      margin-top: 0.5rem;
-      color: #666;
-      font-size: 0.8rem;
-    }
-    .password-requirements ul {
-      margin: 0.25rem 0 0 1rem;
-      padding: 0;
-      list-style-type: disc;
-    }
-    /* Error animation */
-    .error-pulse {
-      animation: pulse 1s;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
-    }
-    /* Disabled button */
-    .register-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
     }
   </style>
 </head>
@@ -97,6 +53,7 @@
   </div>
 </header>
 
+
 <!-- DESKTOP NAV BAR -->
 <nav class="main-nav">
   <div class="nav-container">
@@ -107,11 +64,12 @@
       <li><a href="../resources/resources.html">RESOURCES</a></li>
       <li><a href="../contacts/contacts.html">CONTACTS</a></li>
     </ul>
-    <a href="../login/home.html" class="user-info">
+    <a href="../login/login.html" class="user-info">
       <span class="user-name">Sign In</span>
     </a>
   </div>
 </nav>
+
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu">
@@ -130,11 +88,12 @@
         <li><a href="../contacts/contacts.html">CONTACTS</a></li>
       </ul>
     </nav>
-    <a href="../login/home.html" class="mobile-user-info">
+    <a href="../login/login.html" class="mobile-user-info">
       <span class="mobile-user-name">Sign In</span>
     </a>
   </div>
 </div>
+
 
 <!-- MAIN CONTENT -->
 <main class="signup-content">
@@ -145,6 +104,7 @@
     <h2>Sign Up – Join Our Community</h2>
     <p>Creating an account gives you access to exclusive features designed to support your mental well-being.</p>
   </section>
+
 
   <section class="signup-box">
     <h2>Create Your Account</h2>
@@ -164,32 +124,26 @@
       <div class="form-field">
         <input type="password" id="password" name="password" placeholder="Password" required>
         <div id="password_error" class="error-message"></div>
-        <div class="password-requirements">
-          <small>Password must contain:</small>
-          <ul>
-            <li>At least 8 characters</li>
-            <li>One uppercase letter</li>
-            <li>One lowercase letter</li>
-            <li>One number</li>
-          </ul>
-        </div>
       </div>
 
+
       <p class="already-member">
-        Already a member? <a href="../login/home.html">Log In</a>
+        Already a member? <a href="../login/login.html">Log In</a>
       </p>
+
 
       <button type="submit" class="register-btn">Register</button>
     </form>
   </section>
 </main>
 
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-links">
     <div class="footer-item">
       <span>Stay Connected</span>
-      <img src="../images/github-icon.png" alt="GitHub">
+      <img src="../images/github-icon (1).png" alt="GitHub">
     </div>
     <div class="footer-item">
       <span>Q & A</span>
@@ -205,6 +159,7 @@
   <p><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a></p>
 </footer>
 
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle functionality
@@ -212,12 +167,14 @@
     const mobileMenu = document.querySelector('.mobile-menu');
     const body = document.body;
 
+
     if (hamburger && mobileMenu) {
       hamburger.addEventListener('click', function(e) {
         e.stopPropagation();
         this.classList.toggle('active');
         mobileMenu.classList.toggle('active');
         body.classList.toggle('no-scroll');
+
 
         const lines = this.querySelectorAll('.line');
         if (this.classList.contains('active')) {
@@ -230,6 +187,7 @@
           lines[2].style.transform = 'rotate(0) translate(0)';
         }
       });
+
 
       document.addEventListener('click', function(e) {
         if (mobileMenu.classList.contains('active') &&
@@ -246,10 +204,12 @@
         }
       });
 
+
       mobileMenu.addEventListener('click', function(e) {
         e.stopPropagation();
       });
     }
+
 
     // Search functionality
     const desktopSearchInput = document.getElementById('desktop-search-input');
@@ -269,6 +229,7 @@
       });
     }
 
+
     const mobileSearchInput = document.getElementById('mobile-search-input');
     const mobileSearchContainer = document.querySelector('.mobile-search-container');
    
@@ -286,23 +247,19 @@
       });
     }
 
+
     // Signup form handling
     document.getElementById("signup-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      const form = e.target;
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner"></span> Registering...';
-
-      // Reset UI states
+     
+      // Reset errors
       document.querySelectorAll('.error-message').forEach(el => {
         el.style.display = 'none';
       });
       document.querySelectorAll('input').forEach(input => {
         input.classList.remove('error');
       });
-      document.getElementById('success-message').style.display = 'none';
+
 
       // Get form data
       const formData = {
@@ -312,7 +269,8 @@
         password: document.getElementById('password').value
       };
 
-      // Validation
+
+      // Simple validation
       let isValid = true;
       if (!formData.first_name) {
         showError('first_name', 'First name is required');
@@ -335,21 +293,13 @@
       } else if (formData.password.length < 8) {
         showError('password', 'Password must be at least 8 characters');
         isValid = false;
-      } else if (!/[A-Z]/.test(formData.password) || 
-                 !/[a-z]/.test(formData.password) || 
-                 !/[0-9]/.test(formData.password)) {
-        showError('password', 'Password needs uppercase, lowercase letters and a number');
-        isValid = false;
       }
 
-      if (!isValid) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Register';
-        return;
-      }
+
+      if (!isValid) return;
+
 
       try {
-        console.log('Attempting registration...'); // Debug
         const response = await fetch('http://127.0.0.1:5000/register', {
           method: 'POST',
           headers: {
@@ -357,69 +307,43 @@
           },
           body: JSON.stringify(formData)
         });
-        
+       
         const result = await response.json();
-        console.log('Registration result:', result); // Debug
-        
+       
         if (result.success) {
+          // Show success message
           const successEl = document.getElementById('success-message');
-          successEl.textContent = 'Registration successful! Redirecting to login...';
+          successEl.textContent = 'Registration successful! Redirecting...';
           successEl.style.display = 'block';
-          
-          form.reset();
-          
-          // Store user data if needed
-          if (result.user) {
-            localStorage.setItem('user', JSON.stringify(result.user));
-          }
-          
-          // Debug the redirect path
-          const redirectPath = '../login/login.html';
-          console.log('Preparing to redirect to:', redirectPath);
-          
-          // Force redirect after delay
+         
+          // Store user data
+          localStorage.setItem('user', JSON.stringify(result.user));
+         
+          // Redirect after 2 seconds
           setTimeout(() => {
-            console.log('Executing redirect now...');
-            window.location.href = redirectPath;
-            
-            // Fallback in case redirect fails
-            setTimeout(() => {
-              if (window.location.href.includes('signup')) {
-                window.location.href = '../login/login.html';
-              }
-            }, 1000);
+            window.location.href = '../login/home.html';
           }, 2000);
         } else {
-          showError('email', result.message || 'Registration failed');
+          // Show error message
+          showError('email', result.message);
         }
       } catch (error) {
-        console.error('Registration error:', error);
-        showError('email', 'Network error. Please try again.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Register';
+        console.error('Error:', error);
+        showError('email', 'An error occurred. Please try again.');
       }
     });
+
 
     function showError(fieldId, message) {
       const field = document.getElementById(fieldId);
       const errorEl = document.getElementById(`${fieldId}_error`);
-      
-      // Scroll to the error
-      field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      field.focus();
-      
       field.classList.add('error');
       errorEl.textContent = message;
       errorEl.style.display = 'block';
-      
-      // Temporarily highlight the error
-      setTimeout(() => {
-        field.classList.add('error-pulse');
-        setTimeout(() => field.classList.remove('error-pulse'), 1000);
-      }, 100);
     }
   });
 </script>
 </body>
 </html>
+
+

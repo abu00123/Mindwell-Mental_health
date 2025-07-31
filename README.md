@@ -177,7 +177,7 @@ The system follows a **client-server** architecture where the frontend interacts
 
 1. Clone the repository:
    ```bash
-   git clone 
+  git clone https://github.com/abu00123/Mindwell-Mental_health.git 
 - pip install -r requirements.txt
 - flask db upgrade
 - flask run
@@ -205,7 +205,7 @@ The system follows a **client-server** architecture where the frontend interacts
 The codebase is hosted on GitHub, ensuring version control through branches, pull requests, and issue tracking. 
 
 **GitHub Repository:**
-[https://github.com/Chol1000/mental-health-platform.git]
+[https://github.com/abu00123/Mindwell-Mental_health.git]
 
 
 
