@@ -76,9 +76,7 @@ CORS(app)
 
 @app.route('/')
 def homepage():
-    return "Welcome to MindWell API! 🎉 The server is running."
-
-
+    return "Welcome to the Mindwell App!"
 # =============================================
 # OPENAI CLIENT INITIALIZATION
 # =============================================
@@ -299,14 +297,8 @@ initialize_database()
 
 # Utility functions
 def validate_password(password):
-    if len(password) < 8:
-        return False, "Password must be at least 8 characters"
-    if not re.search("[a-z]", password):
-        return False, "Password needs a lowercase letter"
-    if not re.search("[A-Z]", password):
-        return False, "Password needs an uppercase letter"
-    if not re.search("[0-9]", password):
-        return False, "Password needs a number"
+    if len(password) < 6:
+        return False, "Password must be at least 6 characters"
     return True, ""
 
 
@@ -418,7 +410,7 @@ FALLBACK_RESPONSES = {
 }
 
 # Routes
-@app.route("/api/register", methods=["POST"])
+@app.route("/register", methods=["POST"])
 def register():
     try:
         if not request.is_json:
@@ -499,7 +491,6 @@ def login():
             "success": False,
             "message": "Login failed. Please try again."
         }), 500
-    
 
 @app.route("/api/user/profile", methods=["PUT"])
 def update_profile():

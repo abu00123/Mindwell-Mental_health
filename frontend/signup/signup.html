@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - Mental Health Platform</title>
+  <title>Sign Up Mindwell Mental-Health</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -290,8 +290,8 @@
       if (!formData.password) {
         showError('password', 'Password is required');
         isValid = false;
-      } else if (formData.password.length < 8) {
-        showError('password', 'Password must be at least 8 characters');
+      } else if (formData.password.length < 6) {
+        showError('password', 'Password must be at least 6 characters');
         isValid = false;
       }
 
@@ -311,24 +311,29 @@
         const result = await response.json();
        
         if (result.success) {
-          // Show success message
+          
+          // Show success message immediately
           const successEl = document.getElementById('success-message');
-          successEl.textContent = 'Registration successful! Redirecting...';
+          successEl.textContent = 'Registration successful! Redirecting to dashboard...';
           successEl.style.display = 'block';
+          successEl.style.backgroundColor = '#4caf50';
+          successEl.style.color = 'white';
+          successEl.style.padding = '15px';
+          successEl.style.borderRadius = '5px';
+          successEl.style.marginBottom = '20px';
          
           // Store user data
           localStorage.setItem('user', JSON.stringify(result.user));
-         
-          // Redirect after 2 seconds
-          setTimeout(() => {
-            window.location.href = '../login/home.html';
-          }, 2000);
+          
+          // Hide the form
+          document.getElementById('signup-form').style.display = 'none';
+          
+          // Redirect immediately
+          window.location.replace('../login/home.html');
         } else {
-          // Show error message
           showError('email', result.message);
         }
       } catch (error) {
-        console.error('Error:', error);
         showError('email', 'An error occurred. Please try again.');
       }
     });
