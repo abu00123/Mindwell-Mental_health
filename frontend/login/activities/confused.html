@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CONFUSED 😕 - Mental Health Platform</title>
+  <title>CONFUSED 😕 - Mindwell-Mental_Health/title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -268,7 +268,7 @@
         // Show typing indicator
         const typingIndicator = addTypingIndicator();
         // Call our backend API
-        const response = await fetch('https://mental-health-platform-pro4.onrender.com/api/chat', {
+        const response = await fetch('http://127.0.0.1:5000/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

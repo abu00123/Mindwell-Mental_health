@@ -260,87 +260,42 @@
     }
 
 
-    // Login form handling
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-     
-      // Reset errors
-      document.querySelectorAll('.error-message').forEach(el => {
-        el.style.display = 'none';
-      });
-      document.querySelectorAll('input').forEach(input => {
-        input.classList.remove('error');
-      });
+   document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Authenticating...';
 
-
-      // Get form data
-      const formData = {
-        email: document.getElementById('email').value.trim(),
-        password: document.getElementById('password').value
-      };
-
-
-      // Simple validation
-      let isValid = true;
-      if (!formData.email) {
-        showError('email', 'Email is required');
-        isValid = false;
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        showError('email', 'Invalid email format');
-        isValid = false;
-      }
-      if (!formData.password) {
-        showError('password', 'Password is required');
-        isValid = false;
-      }
-
-
-      if (!isValid) return;
-
-
-      try {
-        const btn = document.querySelector('.login-btn');
-        btn.disabled = true;
-        btn.textContent = 'Logging in...';
-
-
-        const response = await fetch('http://127.0.0.1:5000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
+    try {
+        const response = await fetch("http://127.0.0.1:5000/api/login", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: document.getElementById('email').value.trim().toLowerCase(),
+                password: document.getElementById('password').value
+            }),
+            credentials: 'include'
         });
-       
+
         const result = await response.json();
-       
-        if (result.success) {
-          // Show success message
-          const successEl = document.getElementById('success-message');
-          successEl.textContent = 'Login successful! Redirecting...';
-          successEl.style.display = 'block';
-         
-          // Store user data
-          localStorage.setItem('user', JSON.stringify(result.user));
-         
-          // Redirect after 1 second
-          setTimeout(() => {
-            window.location.href = 'home.html';
-          }, 1000);
-        } else {
-          // Show error message
-          showError('email', result.message);
-          showError('password', '');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showError('email', 'An error occurred. Please try again.');
-      } finally {
-        const btn = document.querySelector('.login-btn');
+        console.log("SERVER RESPONSE:", result);
+
+        if (!response.ok) throw new Error(result.message || "Login failed");
+        
+        alert("Login successful! Check console for details");
+        window.location.href = "/dashboard.html";
+        
+    } catch (error) {
+        alert(`FAILED: ${error.message}\n\nCheck browser console (F12)`);
+        console.error("Login error:", error);
+    } finally {
         btn.disabled = false;
         btn.textContent = 'Log In';
+    }
+});
       }
-    });
+    );
 
 
     function showError(fieldId, message) {
@@ -350,7 +305,7 @@
       errorEl.textContent = message;
       errorEl.style.display = message ? 'block' : 'none';
     }
-  });
+  ;
 </script>
 </body>
 </html>

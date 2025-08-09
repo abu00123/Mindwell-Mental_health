@@ -465,41 +465,50 @@ def register():
             "message": "Registration failed. Please try again."
         }), 500
 
-@app.route("/login", methods=["POST"])
+@app.route('/api/login', methods=['POST'])
 def login():
     try:
-        if not request.is_json:
-            return jsonify({"success": False, "message": "Request must be JSON"}), 400
-            
         data = request.get_json()
-        logger.debug(f"Login attempt for email: {data.get('email')}")
-        
-        if not all(field in data for field in ["email", "password"]):
-            return jsonify({"success": False, "message": "Email and password are required"}), 400
+        if not data:
+            return jsonify({"success": False, "message": "No data provided"}), 400
 
-        user = User.query.filter_by(email=data["email"]).first()
+        # Normalize email and get user
+        email = data.get('email', '').strip().lower()
+        password = data.get('password', '')
+        user = User.find_by_email(email)
+
+        # Validation
         if not user:
-            logger.warning(f"Login failed - user not found: {data['email']}")
-            return jsonify({"success": False, "message": "Invalid email or password"}), 401
+            logger.warning(f"Login attempt for non-existent email: {email}")
+            return jsonify({"success": False, "message": "Invalid credentials"}), 401
             
-        if not user.check_password(data["password"]):
-            logger.warning(f"Login failed - incorrect password for: {data['email']}")
-            return jsonify({"success": False, "message": "Invalid email or password"}), 401
+        if not user.check_password(password):
+            logger.warning(f"Invalid password for user: {email}")
+            return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
-        logger.info(f"User logged in: {user.email}")
+        # Successful login
+        login_user(user)  # Flask-Login integration
+        logger.info(f"Successful login for: {email}")
+        
         return jsonify({
             "success": True,
-            "message": "Login successful",
-            "user": user.to_dict()
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name
+            }
         }), 200
 
     except Exception as e:
         logger.error(f"Login error: {str(e)}")
-        return jsonify({
-            "success": False,
-            "message": "Login failed. Please try again."
-        }), 500
+        return jsonify({"success": False, "message": "Login failed"}), 500
     
+
+@app.route("/signup")
+def signup_page():
+    return render_template("frontend/signup/signup.html")
+
+
 
 @app.route("/api/user/profile", methods=["PUT"])
 def update_profile():
@@ -550,6 +559,21 @@ def update_profile():
             "success": False,
             "message": "An error occurred while updating profile"
         }), 500
+
+@app.route('/api/verify-user', methods=['POST'])
+def verify_user():
+    data = request.get_json()
+    user = User.query.filter_by(email=data['email']).first()
+    
+    if not user:
+        return jsonify({"exists": False}), 404
+        
+    return jsonify({
+        "exists": True,
+        "password_match": user.check_password(data['password'])
+    }), 200
+
+
 
 @app.route("/debug/user/<int:user_id>", methods=["GET"])
 def debug_user(user_id):
