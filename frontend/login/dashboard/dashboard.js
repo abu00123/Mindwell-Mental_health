@@ -111,7 +111,7 @@ function setupModals() {
 
           try {
               const user = JSON.parse(userData);
-              const response = await fetch(`https://mental-health-platform-pro4.onrender.com/api/user/${user.id}`, {
+              const response = await fetch('http://127.0.0.1:5000/api/user/${user.id}', {
                   method: 'DELETE'
               });
               const result = await response.json();
@@ -181,7 +181,7 @@ function fetchUserData() {
 
 async function checkTodaysCheckin(userId) {
   try {
-      const response = await fetch(`https://mental-health-platform-pro4.onrender.com/api/progress/${userId}?time_range=day&metric_type=mood`);
+      const response = await fetch(`http://127.0.0.1:5000/api/progress/${userId}?time_range=day&metric_type=mood`);
       const data = await response.json();
       
       if (data.success && data.today) {
@@ -225,7 +225,7 @@ function setupCheckinForm() {
           if (!isValid) return;
 
           try {
-              const response = await fetch('https://mental-health-platform-pro4.onrender.com/api/checkins', {
+              const response = await fetch('http://127.0.0.1:5000/api/checkins', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -288,7 +288,7 @@ function setupJournalForm() {
           if (!isValid) return;
 
           try {
-              const response = await fetch('https://mental-health-platform-pro4.onrender.com/api/journal', {
+              const response = await fetch('http://127.0.0.1:5000/api/journal', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -328,7 +328,7 @@ async function fetchProgressData() {
   const timeRange = document.getElementById('timeRange') ? document.getElementById('timeRange').value : 'week';
   
   try {
-      const response = await fetch(`https://mental-health-platform-pro4.onrender.com/api/progress/${user.id}?time_range=${timeRange}&metric_type=mood`);
+      const response = await fetch('http://127.0.0.1:5000/api/progress/${user.id}?time_range=${timeRange}&metric_type=mood');
       const data = await response.json();
       
       if (data.success) {
@@ -457,7 +457,7 @@ function setupEditProfileForm() {
       }
 
       try {
-          const response = await fetch('https://mental-health-platform-pro4.onrender.com/api/user/profile', {
+          const response = await fetch('http://127.0.0.1:5000/api/user/profile', {
               method: 'PUT',
               headers: {
                   'Content-Type': 'application/json',

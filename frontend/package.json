@@ -1,12 +1,20 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+<<<<<<< HEAD
+=======
+  "description": "",
+>>>>>>> 24527d259b35e9d908d33ac0bc0e1ae10c105339
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
+<<<<<<< HEAD
   "license": "ISC",
   "description": ""
+=======
+  "license": "ISC"
+>>>>>>> 24527d259b35e9d908d33ac0bc0e1ae10c105339
 }
