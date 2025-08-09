@@ -76,9 +76,7 @@ CORS(app)
 
 @app.route('/')
 def homepage():
-    return "Welcome to MindWell API! 🎉 The server is running."
-
-
+    return "Welcome to the Mindwell App!"
 # =============================================
 # OPENAI CLIENT INITIALIZATION
 # =============================================
@@ -299,14 +297,8 @@ initialize_database()
 
 # Utility functions
 def validate_password(password):
-    if len(password) < 8:
-        return False, "Password must be at least 8 characters"
-    if not re.search("[a-z]", password):
-        return False, "Password needs a lowercase letter"
-    if not re.search("[A-Z]", password):
-        return False, "Password needs an uppercase letter"
-    if not re.search("[0-9]", password):
-        return False, "Password needs a number"
+    if len(password) < 6:
+        return False, "Password must be at least 6 characters"
     return True, ""
 
 
@@ -418,7 +410,7 @@ FALLBACK_RESPONSES = {
 }
 
 # Routes
-@app.route("/api/register", methods=["POST"])
+@app.route("/register", methods=["POST"])
 def register():
     try:
         if not request.is_json:
@@ -465,50 +457,40 @@ def register():
             "message": "Registration failed. Please try again."
         }), 500
 
-@app.route('/api/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login():
     try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"success": False, "message": "No data provided"}), 400
-
-        # Normalize email and get user
-        email = data.get('email', '').strip().lower()
-        password = data.get('password', '')
-        user = User.find_by_email(email)
-
-        # Validation
-        if not user:
-            logger.warning(f"Login attempt for non-existent email: {email}")
-            return jsonify({"success": False, "message": "Invalid credentials"}), 401
+        if not request.is_json:
+            return jsonify({"success": False, "message": "Request must be JSON"}), 400
             
-        if not user.check_password(password):
-            logger.warning(f"Invalid password for user: {email}")
-            return jsonify({"success": False, "message": "Invalid credentials"}), 401
-
-        # Successful login
-        login_user(user)  # Flask-Login integration
-        logger.info(f"Successful login for: {email}")
+        data = request.get_json()
+        logger.debug(f"Login attempt for email: {data.get('email')}")
         
+        if not all(field in data for field in ["email", "password"]):
+            return jsonify({"success": False, "message": "Email and password are required"}), 400
+
+        user = User.query.filter_by(email=data["email"]).first()
+        if not user:
+            logger.warning(f"Login failed - user not found: {data['email']}")
+            return jsonify({"success": False, "message": "Invalid email or password"}), 401
+            
+        if not user.check_password(data["password"]):
+            logger.warning(f"Login failed - incorrect password for: {data['email']}")
+            return jsonify({"success": False, "message": "Invalid email or password"}), 401
+
+        logger.info(f"User logged in: {user.email}")
         return jsonify({
             "success": True,
-            "user": {
-                "id": user.id,
-                "email": user.email,
-                "first_name": user.first_name
-            }
+            "message": "Login successful",
+            "user": user.to_dict()
         }), 200
 
     except Exception as e:
         logger.error(f"Login error: {str(e)}")
-        return jsonify({"success": False, "message": "Login failed"}), 500
-    
-
-@app.route("/signup")
-def signup_page():
-    return render_template("frontend/signup/signup.html")
-
-
+        return jsonify({
+            "success": False,
+            "message": "Login failed. Please try again."
+        }), 500
 
 @app.route("/api/user/profile", methods=["PUT"])
 def update_profile():
@@ -559,21 +541,6 @@ def update_profile():
             "success": False,
             "message": "An error occurred while updating profile"
         }), 500
-
-@app.route('/api/verify-user', methods=['POST'])
-def verify_user():
-    data = request.get_json()
-    user = User.query.filter_by(email=data['email']).first()
-    
-    if not user:
-        return jsonify({"exists": False}), 404
-        
-    return jsonify({
-        "exists": True,
-        "password_match": user.check_password(data['password'])
-    }), 200
-
-
 
 @app.route("/debug/user/<int:user_id>", methods=["GET"])
 def debug_user(user_id):
@@ -890,4 +857,5 @@ if __name__ == "__main__":
     logger.debug(f"Database Path: {DB_PATH}")
     logger.debug("===========================")
     
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
