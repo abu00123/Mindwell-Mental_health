@@ -410,8 +410,10 @@ FALLBACK_RESPONSES = {
 }
 
 # Routes
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "GET":
+        return "<h1>Mindwell Registration</h1><p>Please use the frontend form to register at the main website.</p>", 200
     try:
         if not request.is_json:
             return jsonify({"success": False, "message": "Request must be JSON"}), 400
