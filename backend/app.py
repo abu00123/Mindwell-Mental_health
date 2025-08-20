@@ -77,6 +77,30 @@ CORS(app)
 @app.route('/')
 def homepage():
     return "Welcome to the Mindwell App!"
+
+@app.route('/register', methods=['GET'])
+def register_page():
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Mindwell Registration</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+            .container { text-align: center; }
+            .btn { background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Welcome to Mindwell Mental Health</h1>
+            <p>A comprehensive platform for mental health support and wellness.</p>
+            <p>This is the backend API. Please use the frontend application to register and access all features.</p>
+            <a href="https://github.com/abu00123/Mindwell-Mental_health" class="btn">View on GitHub</a>
+        </div>
+    </body>
+    </html>
+    '''
 # =============================================
 # OPENAI CLIENT INITIALIZATION
 # =============================================
@@ -410,10 +434,8 @@ FALLBACK_RESPONSES = {
 }
 
 # Routes
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "GET":
-        return "<h1>Mindwell Registration</h1><p>Please use the frontend form to register at the main website.</p>", 200
+@app.route("/api/register", methods=["POST"])
+def api_register():
     try:
         if not request.is_json:
             return jsonify({"success": False, "message": "Request must be JSON"}), 400
